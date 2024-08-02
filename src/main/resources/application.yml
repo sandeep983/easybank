@@ -1,0 +1,17 @@
+---
+spring:
+
+  application:
+    name: easybank
+
+  profiles:
+    active: default
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+logging:
+  pattern:
+    console: "%green(%d{HH:mm:ss.SSS} %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n)"
