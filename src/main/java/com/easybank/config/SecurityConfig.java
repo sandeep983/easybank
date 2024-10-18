@@ -20,38 +20,37 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                (requests) -> requests.requestMatchers("/contact", "/notices", "/error").permitAll());
         http.authorizeHttpRequests((requests) -> requests
+                .requestMatchers("/contact", "/notices", "/error").permitAll()
                 .requestMatchers("/myLoans", "/myAccount", "/myBalance", "/myCards").authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
 
-    // For in-memory authentication
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user").password("{noop}12345").authorities("read").build();
-        UserDetails admin = User.withUsername("sandeep")
-                .password("{bcrypt}$2a$12$paveyXY/xOWEsAhTUg901.mhdo.DtWYdPwI6bEv31fyyMQJL9hLOu")
-                .authorities("admin").build();
-        return new InMemoryUserDetailsManager(user, admin);
-    }
+    // // For in-memory authentication
+    // @Bean
+    // public UserDetailsService userDetailsService() {
+    //     UserDetails user = User.withUsername("user").password("{noop}12345").authorities("read").build();
+    //     UserDetails admin = User.withUsername("sandeep")
+    //             .password("{bcrypt}$2a$12$paveyXY/xOWEsAhTUg901.mhdo.DtWYdPwI6bEv31fyyMQJL9hLOu")
+    //             .authorities("admin").build();
+    //     return new InMemoryUserDetailsManager(user, admin);
+    // }
 
-    // For encoding the password, uses bcrypt by default
-    // can be changed to other encoders by using different prefixes
-    // {bcrypt}, {noop}, {pbkdf2}, {scrypt}, {sha256}
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+    // // For encoding the password, uses bcrypt by default
+    // // can be changed to other encoders by using different prefixes
+    // // {bcrypt}, {noop}, {pbkdf2}, {scrypt}, {sha256}
+    // @Bean
+    // public PasswordEncoder passwordEncoder() {
+    //     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    // }
 
-    // For checking by calling an external API to check if the password is
-    // compromised
-    @Bean
-    public CompromisedPasswordChecker compromisedPasswordChecker() {
-        return new HaveIBeenPwnedRestApiPasswordChecker();
-    }
+    // // For checking by calling an external API to check if the password is
+    // // compromised
+    // @Bean
+    // public CompromisedPasswordChecker compromisedPasswordChecker() {
+    //     return new HaveIBeenPwnedRestApiPasswordChecker();
+    // }
 
 }
